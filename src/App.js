@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios'
+import React, { useState } from 'react'
+import User from './components/User'
 
-function App() {
+const App = () => {
+  const [userInfo, setUserInfo] = useState([])
+
+  const clickHandler =(e) =>{
+    e.preventDefault()
+   axios.get('https://randomuser.me/api/')
+   .then((response)=>{
+    console.log(response.data.results);
+    setUserInfo(response.data.results);
+   }).catch((e)=>{
+    console.log(e);
+   }).finally(()=>{
+   })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='app'>
+    <h1>Random User Generator</h1>
+    <User userInfo={userInfo} clicked={clickHandler}/>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
